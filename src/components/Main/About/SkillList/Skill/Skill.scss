@@ -1,0 +1,30 @@
+.skill {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill__name {
+  text-transform: capitalize;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.skill__input {
+  width: 50px;
+  text-align: center;
+  margin-right: 10px;
+  position: relative;
+}
+
+.skill__dimension {
+  margin-right: 10px;
+}
+
+.skill + .skill {
+  margin-top: 10px;
+}

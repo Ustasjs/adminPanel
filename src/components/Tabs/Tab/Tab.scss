@@ -1,0 +1,13 @@
+.tab {
+  border-right: solid 2px #fff;
+}
+
+.tab__link {
+  display: block;
+  padding: 20px 60px;
+}
+
+.tab__link_active {
+  background-color: #fff;
+  color: $green;
+}

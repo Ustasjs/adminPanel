@@ -1,0 +1,39 @@
+.article-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 150px;
+}
+
+.article-form__heading, .article-form__input, .article-form__textarea {
+  margin-bottom: 20px;
+}
+
+.day-picker {
+  position: relative;
+}
+
+.article-form__input {
+  width: 300px;
+}
+
+.day-picker input {
+  padding: 9px;
+  border: 1px solid rgb(202, 202, 202);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.day-picker__overlay-wrapper {
+  position: absolute;
+  top: 0;
+  right: -280px;
+  background-color: #fff;
+}
+
+.article-form__textarea {
+  width: 500px;
+  height: 150px;
+  resize: none;
+}

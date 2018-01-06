@@ -1,0 +1,14 @@
+.header {
+  padding: 20px 30px;
+  background-color: $green;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header__title {
+  font-size: 28px;
+}

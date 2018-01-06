@@ -1,0 +1,7 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: $beige;
+  flex-shrink: 0;
+}

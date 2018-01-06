@@ -1,0 +1,42 @@
+/* roboto bold */
+@font-face {
+  font-family: 'roboto';
+  src: url('~fonts/roboto-bold-webfont.ttf');
+  src: local('☺'), url('~fonts/roboto-bold-webfont.woff') format('woff'),
+    url('~fonts/roboto-bold-webfont.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* roboto medium*/
+
+@font-face {
+  font-family: 'roboto';
+  src: url('~fonts/roboto-medium-webfont.ttf');
+  src: local('☺'), url('~fonts/roboto-medium-webfont.woff') format('woff'),
+    url('~fonts/roboto-medium-webfont.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* roboto regular*/
+
+@font-face {
+  font-family: 'roboto';
+  src: url('~fonts/roboto-regular-webfont.ttf');
+  src: local('☺'), url('~fonts/roboto-regular-webfont.woff') format('woff'),
+    url('~fonts/roboto-regular-webfont.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* roboto light*/
+
+@font-face {
+  font-family: 'roboto';
+  src: url('~fonts/Roboto-Light.ttf');
+  src: local('☺'), url('~fonts/roboto-light-webfont.woff') format('woff'),
+    url('~fonts/roboto-light-webfont.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
