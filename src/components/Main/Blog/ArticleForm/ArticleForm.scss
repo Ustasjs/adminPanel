@@ -3,9 +3,11 @@
   flex-direction: column;
   align-items: flex-start;
   margin-right: 150px;
+  position: relative;
 }
 
-.article-form__heading, .article-form__input, .article-form__textarea {
+.article-form__heading,
+.article-form__input {
   margin-bottom: 20px;
 }
 
@@ -36,4 +38,9 @@
   width: 500px;
   height: 150px;
   resize: none;
+  margin-bottom: 60px;
+}
+
+.article-form__error {
+  bottom: 50px;
 }
