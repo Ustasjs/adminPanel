@@ -19,13 +19,10 @@ const commonConfig = {
   },
   resolve: {
     alias: {
-      'img': path.resolve(__dirname, 'src/assets/img'),
-      'fonts': path.resolve(__dirname, 'src/assets/fonts')
+      img: path.resolve(__dirname, 'src/assets/img'),
+      fonts: path.resolve(__dirname, 'src/assets/fonts')
     },
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, 'src/components')
-    ]
+    modules: ['node_modules', path.resolve(__dirname, 'src/components')]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -49,6 +46,16 @@ const commonConfig = {
           presets: ['env', 'react', 'stage-0']
         }
       },
+      /// только пока не будет готов бек
+      {
+        test: /\.json$/,
+        include: path.resolve(__dirname, 'src/data'),
+        loader: 'file-loader',
+        options: {
+          name: 'data/[name].[ext]'
+        }
+      },
+      /// только пока не будет готов бек
       {
         test: /\.(jpe?g|png|gif|svg|)$/i,
         loader: 'file-loader',
@@ -133,7 +140,10 @@ const productionConfig = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [{ loader: 'css-loader', options: { minimize: true } }, 'postcss-loader']
+          use: [
+            { loader: 'css-loader', options: { minimize: true } },
+            'postcss-loader'
+          ]
         })
       },
       {
@@ -157,10 +167,13 @@ const productionConfig = {
     ]
   },
 
-  plugins: [new ExtractTextPlugin('./css/[name].css'), new webpack.optimize.UglifyJsPlugin()]
+  plugins: [
+    new ExtractTextPlugin('./css/[name].css'),
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };
 
-module.exports = function (env) {
+module.exports = function(env) {
   if (env === 'production') {
     return merge(commonConfig, productionConfig);
   }

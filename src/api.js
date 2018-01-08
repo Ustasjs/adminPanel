@@ -1,3 +1,8 @@
+/// только пока не будет готов бек
+import './data/articles.json';
+import './data/skills.json';
+import './data/works.json';
+
 // skills
 
 export function fetchSkills() {
