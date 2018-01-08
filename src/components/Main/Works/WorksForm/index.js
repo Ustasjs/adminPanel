@@ -51,7 +51,9 @@ export class WorksForm extends Component {
           <span className="works-form__file-text">Загрузить картинку</span>
         </label>
         {pictureError ? (
-          <div className="error works-form__pictureError">{pictureError}</div>
+          <div className="error works-form__error works-form__error_picture">
+            {pictureError}
+          </div>
         ) : null}
         {error ? <div className="error works-form__error">{error}</div> : null}
         {dataUrl ? (
@@ -120,8 +122,15 @@ export class WorksForm extends Component {
       this.setState({ error: errorMessage });
     } else {
       // improve when server will be ready
-      this.setState({ showModal: true, error: false });
       addWork(name, stack, makeId());
+      this.setState({
+        showModal: true,
+        error: false,
+        name: '',
+        stack: '',
+        dataUrl: null,
+        formData: null
+      });
     }
   };
 

@@ -4,4 +4,8 @@
   justify-content: flex-start;
   background-color: $beige;
   flex-shrink: 0;
+
+  @include smartphone() {
+    flex-direction: column;
+  }
 }

@@ -39,7 +39,7 @@ export class About extends Component {
     const { skillsTypes, showModal } = this.state;
 
     return (
-      <div className="about">
+      <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Обо мне"</h2>
         <ul className="about__list">
           {skillsTypes.map((elem, index) => (

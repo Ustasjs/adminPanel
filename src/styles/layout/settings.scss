@@ -24,6 +24,10 @@ body {
   font-weight: 500;
   margin: 0;
   color: #455a64;
+
+  @include smartphone() {
+    font-size: 14px;
+  }
 }
 
 ul {
@@ -59,15 +63,42 @@ h3 {
 
 .heading_big {
   font-size: 28px;
+
+  @include tablet() {
+    font-size: 21px;
+  }
 }
 
 .heading_medium {
   font-size: 21px;
   margin-bottom: 45px;
+
+  @include smartphone() {
+    margin-bottom: 20px;
+  }
 }
 
 .heading_small {
   font-size: 16px;
+}
+
+.inner-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  @include tablet() {
+    flex-direction: column;
+  }
+}
+
+.inner-container {
+  padding: 20px;
+
+  @include smartphone() {
+    padding: 10px;
+  }
 }
 
 .button {

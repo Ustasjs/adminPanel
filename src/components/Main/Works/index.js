@@ -3,8 +3,6 @@ import WorksForm from './WorksForm';
 import CurrentWorks from './CurrentWorks';
 import { fetchWorks } from '../../../api';
 
-import './Works.scss';
-
 export class Works extends Component {
   state = {
     works: []
@@ -18,9 +16,9 @@ export class Works extends Component {
     const { works } = this.state;
 
     return (
-      <div className="works">
+      <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Мои работы"</h2>
-        <div className="works__wrapper">
+        <div className="inner-wrapper">
           <WorksForm addWork={this.addWork} />
           <CurrentWorks works={works} deleteWork={this.handleDeleteWork} />
         </div>

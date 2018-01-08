@@ -6,6 +6,14 @@
   position: relative;
   display: flex;
   flex-direction: column;
+
+  @include tablet() {
+    background-image: url('~img/bgTablet.jpg');
+  }
+
+  @include smartphone() {
+    background-image: url('~img/bgPhone.jpg');
+  }
 }
 
 .wrapper {

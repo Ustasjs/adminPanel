@@ -4,6 +4,10 @@
   align-items: flex-start;
   margin-right: 150px;
   position: relative;
+  margin-bottom: 30px;
+  @include tablet() {
+    margin-right: 0px;
+  }
 }
 
 .article-form__heading,
@@ -32,6 +36,12 @@
   top: 0;
   right: -280px;
   background-color: #fff;
+  z-index: 2;
+
+  @include smartphone() {
+    left: 0;
+    top: 50px;
+  }
 }
 
 .article-form__textarea {
@@ -39,6 +49,10 @@
   height: 150px;
   resize: none;
   margin-bottom: 60px;
+
+  @include smallTablet() {
+    width: 100%;
+  }
 }
 
 .article-form__error {

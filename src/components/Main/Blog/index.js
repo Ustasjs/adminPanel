@@ -3,8 +3,6 @@ import ArticleForm from './ArticleForm';
 import CurrentArticles from './CurrentArticles';
 import { fetchArticles } from '../../../api';
 
-import './Blog.scss';
-
 export class Blog extends Component {
   state = {
     articles: []
@@ -18,9 +16,9 @@ export class Blog extends Component {
     const { articles } = this.state;
 
     return (
-      <div className="blog">
+      <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Блог"</h2>
-        <div className="blog__wrapper">
+        <div className="inner-wrapper">
           <ArticleForm addArticle={this.addArticle} />
           <CurrentArticles
             articles={articles}

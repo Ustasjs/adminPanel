@@ -7,8 +7,37 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+
+  @include smallTablet() {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  @include smartphone() {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
 
 .header__title {
-  font-size: 28px;
+  @include smartphone() {
+    order: 2;
+  }
+}
+
+.header__logout {
+  opacity: 0.8;
+  @include smartphone() {
+    order: 1;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
 }

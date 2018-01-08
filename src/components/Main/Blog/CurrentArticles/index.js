@@ -12,7 +12,7 @@ export default function CurrentArticles(props) {
         Текущие статьи
       </h3>
       <ul className="current-articles__list">
-        {articles
+        {articles.length > 0
           ? articles.map(elem => (
               <Article
                 deleteArticle={deleteArticle}

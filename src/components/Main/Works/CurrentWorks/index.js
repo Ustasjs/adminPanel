@@ -12,7 +12,7 @@ export default function CurrentWorks(props) {
         Текущие работы
       </h3>
       <ul className="current-works__list">
-        {works
+        {works.length > 0
           ? works.map(elem => (
               <Work
                 deleteWork={deleteWork}
