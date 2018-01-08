@@ -7,7 +7,7 @@ import './Blog.scss';
 
 export class Blog extends Component {
   state = {
-    articles: null
+    articles: []
   };
 
   componentDidMount() {

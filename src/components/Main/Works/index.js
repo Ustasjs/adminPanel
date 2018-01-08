@@ -7,7 +7,7 @@ import './Works.scss';
 
 export class Works extends Component {
   state = {
-    works: null
+    works: []
   };
 
   componentDidMount() {
@@ -46,7 +46,6 @@ export class Works extends Component {
   };
 
   handleDeleteWork = id => {
-    console.log(id);
     const works = this.state.works;
     this.setState({
       works: works.filter(elem => elem.id !== id)
