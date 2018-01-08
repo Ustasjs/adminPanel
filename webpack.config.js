@@ -52,7 +52,7 @@ const commonConfig = {
         include: path.resolve(__dirname, 'src/data'),
         loader: 'file-loader',
         options: {
-          name: 'data/[name].[ext]'
+          name: 'src/data/[name].[ext]'
         }
       },
       /// только пока не будет готов бек
