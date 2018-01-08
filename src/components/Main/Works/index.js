@@ -29,9 +29,13 @@ export class Works extends Component {
   }
 
   handleUpdateWorks = () => {
-    fetchWorks().then(res => {
-      this.setState({ works: res });
-    });
+    fetchWorks()
+      .then(res => {
+        this.setState({ works: res });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   addWork = (name, stack, id) => {

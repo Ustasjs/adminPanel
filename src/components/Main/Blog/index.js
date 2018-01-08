@@ -32,9 +32,13 @@ export class Blog extends Component {
   }
 
   handleUpdateArticles = () => {
-    fetchArticles().then(res => {
-      this.setState({ articles: res });
-    });
+    fetchArticles()
+      .then(res => {
+        this.setState({ articles: res });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   addArticle = (id, name) => {

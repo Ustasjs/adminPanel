@@ -102,9 +102,13 @@ export class About extends Component {
   };
 
   handleUpdateSkills = () => {
-    fetchSkills().then(res => {
-      this.setState({ skills: res });
-    });
+    fetchSkills()
+      .then(res => {
+        this.setState({ skills: res });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   handleSave = () => {
