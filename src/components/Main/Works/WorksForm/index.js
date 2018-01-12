@@ -3,7 +3,7 @@ import ModalIcon from 'Main/ModalIcon';
 
 import { makeId } from '../../../../utils';
 import './WorksForm.scss';
-import Logo from 'img/picture.png';
+import Logo from '../../../../assets/img/picture.png';
 
 export class WorksForm extends Component {
   state = {

@@ -17,22 +17,12 @@ export default function CurrentArticles(props) {
               <Article
                 deleteArticle={deleteArticle}
                 name={elem.name}
-                key={elem.id}
-                id={elem.id}
+                key={elem._id}
+                _id={elem._id}
               />
             ))
           : 'Записей пока нет'}
       </ul>
-      <button
-        onClick={handleSaveClick}
-        className="button current-articles__button"
-      >
-        Сохранить
-      </button>
     </div>
   );
-
-  function handleSaveClick() {
-    // improve when server will be ready
-  }
 }

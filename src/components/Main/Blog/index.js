@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import ArticleForm from './ArticleForm';
 import CurrentArticles from './CurrentArticles';
-import { fetchArticles } from '../../../api';
+import {
+  fetchArticles,
+  deleteArticleFromDb,
+  addArticleToDb
+} from '../../../api';
 
 export class Blog extends Component {
   state = {
@@ -32,25 +36,35 @@ export class Blog extends Component {
   handleUpdateArticles = () => {
     fetchArticles()
       .then(res => {
-        this.setState({ articles: res });
+        this.setState(res);
       })
       .catch(err => {
         console.error(err);
       });
   };
 
-  addArticle = (id, name) => {
-    const article = { id, name };
+  addArticle = (name, content, date) => {
+    const article = { name, content, date };
     const articles = this.state.articles;
 
-    this.setState({ articles: [...articles, article] });
+    addArticleToDb(name, content, date)
+      .then(this.setState({ articles: [...articles, article] }))
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   handleDeleteArticle = id => {
     const articles = this.state.articles;
-    this.setState({
-      articles: articles.filter(elem => elem.id !== id)
-    });
+    deleteArticleFromDb(id)
+      .then(
+        this.setState({
+          articles: articles.filter(elem => elem._id !== id)
+        })
+      )
+      .catch(err => {
+        console.error(err);
+      });
   };
 }
 

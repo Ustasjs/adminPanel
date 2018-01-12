@@ -132,11 +132,10 @@ export class ArticleForm extends Component {
       this.setState({ error: errorMessage });
     } else {
       // improve when server will be ready
-      addArticle(makeId(), name);
+      addArticle(name, content, date);
       this.setState({
         showModal: true,
         name: '',
-        date: '',
         content: '',
         error: false
       });

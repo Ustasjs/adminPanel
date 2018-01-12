@@ -129,7 +129,8 @@ const developmentConfig = {
   devServer: {
     open: true,
     port: 8000,
-    historyApiFallback: true
+    historyApiFallback: true,
+    publicPath: 'http://localhost:8000/adminpanel/'
   }
 };
 

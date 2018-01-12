@@ -57,9 +57,11 @@ export class SkillList extends Component {
     const { skillName } = this.state;
     const id = makeId();
 
-    addHandler(id, skillName, type);
+    if (skillName !== '') {
+      addHandler(id, skillName, type);
 
-    this.setState({ skillName: '' });
+      this.setState({ skillName: '' });
+    }
   };
 
   handleEnterPress = e => {

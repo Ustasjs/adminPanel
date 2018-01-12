@@ -2,8 +2,8 @@ import React from 'react';
 
 import './Article.scss';
 
-export default function Work(props) {
-  const { name, deleteArticle } = props;
+export default function Article(props) {
+  const { name } = props;
 
   return (
     <li className="article">
@@ -15,7 +15,7 @@ export default function Work(props) {
   );
 
   function handleClick() {
-    const { deleteArticle, id } = props;
-    deleteArticle(id);
+    const { deleteArticle, _id } = props;
+    deleteArticle(_id);
   }
 }
