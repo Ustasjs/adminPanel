@@ -18,8 +18,15 @@ export class WorksForm extends Component {
 
   render() {
     const { pictureError, error, dataUrl, name, stack, showModal } = this.state;
+    const {
+      handleSubmit,
+      handleInputChange,
+      handleInputBlur,
+      handleChange,
+      handleModalClick
+    } = this;
     return (
-      <form action="POST" className="works-form" onSubmit={this.handleSubmit}>
+      <form action="POST" className="works-form" onSubmit={handleSubmit}>
         <h3 className="heading heading_small works-form__heading">
           Добавить работу
         </h3>
@@ -28,23 +35,23 @@ export class WorksForm extends Component {
           type="text"
           placeholder="Название проекта"
           className="input works-form__input"
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={name}
-          onBlur={this.handleInputBlur}
+          onBlur={handleInputBlur}
         />
         <input
           name="stack"
           type="text"
           placeholder="Технологии"
           className="input works-form__input"
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={stack}
-          onBlur={this.handleInputBlur}
+          onBlur={handleInputBlur}
         />
         <label className="works-form__file">
           <input
             type="file"
-            onChange={this.handleChange}
+            onChange={handleChange}
             className="works-form__file-input"
           />
           <img src={Logo} alt="Logo" className="works-form__file-img" />
@@ -60,7 +67,7 @@ export class WorksForm extends Component {
           <img src={dataUrl} className="works-form__preview" alt="preview" />
         ) : null}
         <button className="button works-form__button">Добавить</button>
-        {showModal ? <ModalIcon onClick={this.handleModalClick} /> : null}
+        {showModal ? <ModalIcon onClick={handleModalClick} /> : null}
       </form>
     );
   }

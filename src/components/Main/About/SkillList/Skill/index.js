@@ -46,7 +46,7 @@ export class Skill extends Component {
     );
   }
 
-  deleteClickHandler = e => {
+  deleteClickHandler = () => {
     const { deleteHandler, skill: { id, type } } = this.props;
 
     deleteHandler(id, type);
@@ -56,8 +56,13 @@ export class Skill extends Component {
     const { changePersentsHandler, skill: { id, type } } = this.props;
     let value = e.target.value.trim();
 
-    value[0] === '0' ? (value = value.slice(1)) : null;
-    value === '' ? (value = 0) : null;
+    if (value[0] === '0') {
+      value = value.slice(1);
+    }
+
+    if (value === '') {
+      value = 0;
+    }
 
     if (value >= 0 && value <= 100) {
       changePersentsHandler(id, type, value);
