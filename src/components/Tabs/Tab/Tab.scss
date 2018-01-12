@@ -1,0 +1,31 @@
+.tab {
+  border-right: solid 2px #fff;
+  @include smartphone() {
+    border-right: none;
+  }
+}
+
+.tab + .tab {
+  @include smartphone() {
+    border-top: solid 2px #fff;
+  }
+}
+
+.tab__link {
+  display: block;
+  padding: 20px 60px;
+  text-align: center;
+  @include smallTablet() {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  @include smartphone() {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.tab__link_active {
+  background-color: #fff;
+  color: $green;
+}

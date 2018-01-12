@@ -1,0 +1,11 @@
+.article {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.article__name {
+  margin-right: 20px;
+}

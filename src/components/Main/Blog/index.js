@@ -1,0 +1,57 @@
+import React, { Component } from 'react';
+import ArticleForm from './ArticleForm';
+import CurrentArticles from './CurrentArticles';
+import { fetchArticles } from '../../../api';
+
+export class Blog extends Component {
+  state = {
+    articles: []
+  };
+
+  componentDidMount() {
+    this.handleUpdateArticles();
+  }
+
+  render() {
+    const { articles } = this.state;
+
+    return (
+      <div className="inner-container">
+        <h2 className="heading heading_medium">Страница "Блог"</h2>
+        <div className="inner-wrapper">
+          <ArticleForm addArticle={this.addArticle} />
+          <CurrentArticles
+            articles={articles}
+            deleteArticle={this.handleDeleteArticle}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  handleUpdateArticles = () => {
+    fetchArticles()
+      .then(res => {
+        this.setState({ articles: res });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  addArticle = (id, name) => {
+    const article = { id, name };
+    const articles = this.state.articles;
+
+    this.setState({ articles: [...articles, article] });
+  };
+
+  handleDeleteArticle = id => {
+    const articles = this.state.articles;
+    this.setState({
+      articles: articles.filter(elem => elem.id !== id)
+    });
+  };
+}
+
+export default Blog;

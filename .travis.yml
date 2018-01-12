@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 8
+
+cache: yarn
+script:
+  - yarn build
+
+scripts: true
+
+after_success:
+  - chmod +x ./deploy.sh
+  - ./deploy.sh
