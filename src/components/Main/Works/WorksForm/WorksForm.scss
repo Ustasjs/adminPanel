@@ -40,6 +40,10 @@
   position: absolute;
   bottom: 70px;
   height: 50px;
+
+  @include smartphone() {
+    bottom: 80px;
+  }
 }
 
 .works-form__file-img {
