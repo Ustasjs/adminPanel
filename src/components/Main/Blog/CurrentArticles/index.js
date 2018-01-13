@@ -17,8 +17,8 @@ export default function CurrentArticles(props) {
               <Article
                 deleteArticle={deleteArticle}
                 name={elem.name}
-                key={elem._id}
-                _id={elem._id}
+                key={elem.id}
+                id={elem.id}
               />
             ))
           : 'Записей пока нет'}

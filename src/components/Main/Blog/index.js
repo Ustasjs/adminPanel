@@ -6,10 +6,12 @@ import {
   deleteArticleFromDb,
   addArticleToDb
 } from '../../../api';
+import './Blog.scss';
 
 export class Blog extends Component {
   state = {
-    articles: []
+    articles: [],
+    connectionError: false
   };
 
   componentDidMount() {
@@ -17,11 +19,16 @@ export class Blog extends Component {
   }
 
   render() {
-    const { articles } = this.state;
+    const { articles, connectionError } = this.state;
 
     return (
       <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Блог"</h2>
+        {connectionError ? (
+          <div className="error blog__error">
+            Произошла ошибка соединения: {connectionError}
+          </div>
+        ) : null}
         <div className="inner-wrapper">
           <ArticleForm addArticle={this.addArticle} />
           <CurrentArticles
@@ -34,36 +41,31 @@ export class Blog extends Component {
   }
 
   handleUpdateArticles = () => {
-    fetchArticles()
+    return fetchArticles()
       .then(res => {
-        this.setState(res);
+        this.setState({ articles: res.articles, connectionError: false });
       })
       .catch(err => {
         console.error(err);
+        this.setState({ connectionError: err.message });
       });
   };
 
   addArticle = (name, content, date) => {
-    const article = { name, content, date };
-    const articles = this.state.articles;
-
-    addArticleToDb(name, content, date)
-      .then(this.setState({ articles: [...articles, article] }))
+    return addArticleToDb(name, content, date)
+      .then(() => this.handleUpdateArticles())
       .catch(err => {
         console.error(err);
+        this.setState({ connectionError: err.message });
       });
   };
 
   handleDeleteArticle = id => {
-    const articles = this.state.articles;
     deleteArticleFromDb(id)
-      .then(
-        this.setState({
-          articles: articles.filter(elem => elem._id !== id)
-        })
-      )
+      .then(() => this.handleUpdateArticles())
       .catch(err => {
         console.error(err);
+        this.setState({ connectionError: err.message });
       });
   };
 }

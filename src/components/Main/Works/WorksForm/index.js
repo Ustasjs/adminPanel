@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import ModalIcon from 'Main/ModalIcon';
 
-import { makeId } from '../../../../utils';
 import './WorksForm.scss';
 import Logo from '../../../../assets/img/picture.png';
 
@@ -10,16 +8,21 @@ export class WorksForm extends Component {
     pictureError: false,
     error: false,
     dataUrl: null,
-    formData: null,
+    file: null,
     name: '',
-    stack: '',
-    showModal: false
+    stack: ''
   };
 
   render() {
-    const { pictureError, error, dataUrl, name, stack, showModal } = this.state;
+    const { pictureError, error, dataUrl, name, stack } = this.state;
+    const {
+      handleSubmit,
+      handleInputChange,
+      handleInputBlur,
+      handleChange
+    } = this;
     return (
-      <form action="POST" className="works-form" onSubmit={this.handleSubmit}>
+      <form action="POST" className="works-form" onSubmit={handleSubmit}>
         <h3 className="heading heading_small works-form__heading">
           Добавить работу
         </h3>
@@ -28,23 +31,23 @@ export class WorksForm extends Component {
           type="text"
           placeholder="Название проекта"
           className="input works-form__input"
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={name}
-          onBlur={this.handleInputBlur}
+          onBlur={handleInputBlur}
         />
         <input
           name="stack"
           type="text"
           placeholder="Технологии"
           className="input works-form__input"
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={stack}
-          onBlur={this.handleInputBlur}
+          onBlur={handleInputBlur}
         />
         <label className="works-form__file">
           <input
             type="file"
-            onChange={this.handleChange}
+            onChange={handleChange}
             className="works-form__file-input"
           />
           <img src={Logo} alt="Logo" className="works-form__file-img" />
@@ -60,7 +63,6 @@ export class WorksForm extends Component {
           <img src={dataUrl} className="works-form__preview" alt="preview" />
         ) : null}
         <button className="button works-form__button">Добавить</button>
-        {showModal ? <ModalIcon onClick={this.handleModalClick} /> : null}
       </form>
     );
   }
@@ -69,16 +71,16 @@ export class WorksForm extends Component {
     let file = e.target.files[0];
     let errorMessage =
       'Разрешена загрузка только файлов в формате .jpg или .png, размером не более 5мб';
+    console.log('+++', file);
 
     if (
       (file.type === 'image/jpeg' || file.type === 'image/png') &&
       file.size <= 5000000
     ) {
+      console.log('----', file);
       const reader = new FileReader();
-      const formData = new FormData();
 
-      formData.append('image', file);
-      this.setState({ ...this.state, pictureError: false, formData: formData });
+      this.setState({ ...this.state, pictureError: false, file: file });
 
       reader.readAsDataURL(file);
       reader.addEventListener('loadend', e => {
@@ -92,7 +94,7 @@ export class WorksForm extends Component {
       this.setState({
         pictureError: errorMessage,
         dataUrl: null,
-        formData: null
+        file: null
       });
     }
   };
@@ -112,31 +114,22 @@ export class WorksForm extends Component {
   };
 
   handleSubmit = e => {
-    const { name, stack, pictureError, formData } = this.state;
+    const { name, stack, pictureError, file } = this.state;
     const { addWork } = this.props;
     const errorMessage = 'Все поля обязательны для заполнения';
 
     e.preventDefault();
 
-    if (name === '' || stack === '' || formData === null || pictureError) {
+    if (name === '' || stack === '' || file === null || pictureError) {
       this.setState({ error: errorMessage });
     } else {
-      // improve when server will be ready
-      addWork(name, stack, makeId());
+      addWork(name, stack, file);
       this.setState({
-        showModal: true,
         error: false,
         name: '',
-        stack: '',
-        dataUrl: null,
-        formData: null
+        stack: ''
       });
     }
-  };
-
-  handleModalClick = () => {
-    // improve when server will be ready
-    this.setState({ showModal: false });
   };
 }
 

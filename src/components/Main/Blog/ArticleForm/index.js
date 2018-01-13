@@ -16,9 +16,17 @@ export class ArticleForm extends Component {
   };
 
   render() {
-    const { name, content, error, showModal } = this.state;
+    const { name, content, error } = this.state;
+    const {
+      handleSubmit,
+      handleInputChange,
+      handleInputBlur,
+      formatDate,
+      parseDate,
+      handleDayChange
+    } = this;
     return (
-      <form action="POST" className="article-form" onSubmit={this.handleSubmit}>
+      <form action="POST" className="article-form" onSubmit={handleSubmit}>
         <h3 className="heading heading_small article-form__heading">
           Добавить запись
         </h3>
@@ -28,15 +36,15 @@ export class ArticleForm extends Component {
           placeholder="Название"
           className="input article-form__input"
           value={name}
-          onChange={this.handleInputChange}
-          onBlur={this.handleInputBlur}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
         />
         <DayPickerInput
           format={'dd.mm.yyyy'}
           placeholder={'dd.mm.yyyy'}
-          formatDate={this.formatDate}
-          parseDate={this.parseDate}
-          onDayChange={this.handleDayChange}
+          formatDate={formatDate}
+          parseDate={parseDate}
+          onDayChange={handleDayChange}
           classNames={{
             container: 'day-picker',
             overlay: 'day-picker__overlay',
@@ -48,14 +56,13 @@ export class ArticleForm extends Component {
           placeholder="Содержание"
           className="input article-form__textarea"
           value={content}
-          onChange={this.handleInputChange}
-          onBlur={this.handleInputBlur}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
         />
         {error ? (
           <div className="error article-form__error">{error}</div>
         ) : null}
         <button className="button article-form__button">Добавить</button>
-        {showModal ? <ModalIcon onClick={this.handleModalClick} /> : null}
       </form>
     );
   }
@@ -96,15 +103,7 @@ export class ArticleForm extends Component {
     return date;
   };
 
-  handleDayChange = day => {
-    let resultValue = day;
-
-    if (day === undefined) {
-      resultValue = '';
-    }
-
-    this.setState({ date: resultValue });
-  };
+  handleDayChange = day => this.setState({ date: day || '' });
 
   handleInputChange = e => {
     const value = e.target.value;
@@ -132,19 +131,18 @@ export class ArticleForm extends Component {
       this.setState({ error: errorMessage });
     } else {
       // improve when server will be ready
-      addArticle(name, content, date);
-      this.setState({
-        showModal: true,
-        name: '',
-        content: '',
-        error: false
-      });
+      addArticle(name, content, date)
+        .then(() => {
+          this.setState({
+            name: '',
+            content: '',
+            error: false
+          });
+        })
+        .catch(e => {
+          console.log(e.message);
+        });
     }
-  };
-
-  handleModalClick = () => {
-    // improve when server will be ready
-    this.setState({ showModal: false });
   };
 }
 

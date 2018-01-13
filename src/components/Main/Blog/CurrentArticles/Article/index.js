@@ -15,7 +15,7 @@ export default function Article(props) {
   );
 
   function handleClick() {
-    const { deleteArticle, _id } = props;
-    deleteArticle(_id);
+    const { deleteArticle, id } = props;
+    deleteArticle(id);
   }
 }

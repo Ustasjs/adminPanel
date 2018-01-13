@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import WorksForm from './WorksForm';
 import CurrentWorks from './CurrentWorks';
-import { fetchWorks } from '../../../api';
+import { fetchWorks, addWorksToDb, deleteWorkseFromDb } from '../../../api';
 
 export class Works extends Component {
   state = {
-    works: []
+    works: [],
+    connectionError: false
   };
 
   componentDidMount() {
@@ -13,11 +14,16 @@ export class Works extends Component {
   }
 
   render() {
-    const { works } = this.state;
+    const { works, connectionError } = this.state;
 
     return (
       <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Мои работы"</h2>
+        {connectionError ? (
+          <div className="error blog__error">
+            Произошла ошибка соединения: {connectionError}
+          </div>
+        ) : null}
         <div className="inner-wrapper">
           <WorksForm addWork={this.addWork} />
           <CurrentWorks works={works} deleteWork={this.handleDeleteWork} />
@@ -27,27 +33,32 @@ export class Works extends Component {
   }
 
   handleUpdateWorks = () => {
-    fetchWorks()
+    return fetchWorks()
       .then(res => {
-        this.setState({ works: res });
+        this.setState({ works: res.works, connectionError: false });
       })
       .catch(err => {
         console.error(err);
+        this.setState({ connectionError: err.message });
       });
   };
 
-  addWork = (name, stack, id) => {
-    const work = { name, stack, id };
-    const works = this.state.works;
-
-    this.setState({ works: [...works, work] });
+  addWork = (name, stack, picture) => {
+    return addWorksToDb(name, stack, picture)
+      .then(() => this.handleUpdateWorks())
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
+      });
   };
 
   handleDeleteWork = id => {
-    const works = this.state.works;
-    this.setState({
-      works: works.filter(elem => elem.id !== id)
-    });
+    deleteWorkseFromDb(id)
+      .then(() => this.handleUpdateWorks())
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
+      });
   };
 }
 

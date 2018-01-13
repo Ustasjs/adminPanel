@@ -2,27 +2,8 @@ import React, { Component } from 'react';
 import './Skill.scss';
 
 export class Skill extends Component {
-  // state = {
-  //   percents: ''
-  // };
-
-  // componentWillMount() {
-  //   const { skill } = this.props;
-
-  //   this.setState({ percents: skill.percents });
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { skill } = this.props;
-
-  //   if (skill.percents !== nextProps.skill.percents) {
-  //     this.setState({ percents: nextProps.skill.percents });
-  //   }
-  // }
-
   render() {
     const { skill } = this.props;
-    //const { percents } = this.state;
 
     return (
       <li className="skill">
@@ -46,7 +27,7 @@ export class Skill extends Component {
     );
   }
 
-  deleteClickHandler = e => {
+  deleteClickHandler = () => {
     const { deleteHandler, skill: { id, type } } = this.props;
 
     deleteHandler(id, type);
@@ -56,8 +37,13 @@ export class Skill extends Component {
     const { changePersentsHandler, skill: { id, type } } = this.props;
     let value = e.target.value.trim();
 
-    value[0] === '0' ? (value = value.slice(1)) : null;
-    value === '' ? (value = 0) : null;
+    if (value[0] === '0') {
+      value = value.slice(1);
+    }
+
+    if (value === '') {
+      value = 0;
+    }
 
     if (value >= 0 && value <= 100) {
       changePersentsHandler(id, type, value);

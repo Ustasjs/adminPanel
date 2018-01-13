@@ -7,27 +7,8 @@ import './About.scss';
 
 export class About extends Component {
   state = {
-    skills: [
-      {
-        id: 1,
-        name: 'Html',
-        percents: 10,
-        type: 1
-      },
-      {
-        id: 5,
-        name: 'Gulp',
-        percents: 50,
-        type: 2
-      },
-      {
-        id: 8,
-        name: 'Node.js',
-        percents: 80,
-        type: 3
-      }
-    ],
-    skillsTypes: ['frontend', 'workflow', 'backend'],
+    skills: [],
+    skillsTypes: [],
     showModal: false
   };
 
@@ -49,8 +30,8 @@ export class About extends Component {
               changePersentsHandler={this.handlePercentsChange}
               title={elem}
               key={elem}
-              type={index + 1}
-              skills={this.filterSkills(index)}
+              type={elem}
+              skills={this.filterSkills(elem)}
             />
           ))}
         </ul>
@@ -62,17 +43,17 @@ export class About extends Component {
     );
   }
 
-  filterSkills = index => {
+  filterSkills = type => {
     const { skills } = this.state;
-    return skills.filter(elem => elem.type === index + 1);
+    return skills.filter(elem => elem.type === type);
   };
 
   handleDeleteSkill = (skillId, skillTypeId) => {
-    const state = this.state;
+    const { state } = this;
     this.setState({
-      skills: state.skills.filter(elem => {
-        return !(elem.id === skillId && elem.type === skillTypeId);
-      })
+      skills: state.skills.filter(
+        elem => elem.id !== skillId || elem.type !== skillTypeId
+      )
     });
   };
 
@@ -83,7 +64,7 @@ export class About extends Component {
       percents: 0,
       type
     };
-    const skills = this.state.skills;
+    const { skills } = this.state;
 
     this.setState({ skills: [...skills, skill] });
   };
@@ -104,7 +85,14 @@ export class About extends Component {
   handleUpdateSkills = () => {
     fetchSkills()
       .then(res => {
-        this.setState({ skills: res });
+        const skills = res.skills;
+        const skillsTypes = res.skills.reduce((prevValue, currentValue) => {
+          if (prevValue.indexOf(currentValue.type) === -1) {
+            prevValue.push(currentValue.type);
+          }
+          return prevValue;
+        }, []);
+        this.setState({ skills: skills, skillsTypes });
       })
       .catch(err => {
         console.error(err);
