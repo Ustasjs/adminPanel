@@ -68,11 +68,11 @@ export class About extends Component {
   };
 
   handleDeleteSkill = (skillId, skillTypeId) => {
-    const state = this.state;
+    const { state } = this;
     this.setState({
-      skills: state.skills.filter(elem => {
-        return !(elem.id === skillId && elem.type === skillTypeId);
-      })
+      skills: state.skills.filter(
+        elem => elem.id !== skillId || elem.type !== skillTypeId
+      )
     });
   };
 
@@ -83,7 +83,7 @@ export class About extends Component {
       percents: 0,
       type
     };
-    const skills = this.state.skills;
+    const { skills } = this.state;
 
     this.setState({ skills: [...skills, skill] });
   };
