@@ -43,8 +43,8 @@ export class Works extends Component {
       });
   };
 
-  addWork = (name, stack, picture) => {
-    return addWorksToDb(name, stack, picture)
+  addWork = (name, stack, link, description, file) => {
+    return addWorksToDb(name, stack, link, description, file)
       .then(() => this.handleUpdateWorks())
       .catch(err => {
         console.error(err);

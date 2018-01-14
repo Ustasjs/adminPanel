@@ -10,11 +10,21 @@ export class WorksForm extends Component {
     dataUrl: null,
     file: null,
     name: '',
-    stack: ''
+    stack: '',
+    description: '',
+    link: ''
   };
 
   render() {
-    const { pictureError, error, dataUrl, name, stack } = this.state;
+    const {
+      pictureError,
+      error,
+      dataUrl,
+      name,
+      stack,
+      link,
+      description
+    } = this.state;
     const {
       handleSubmit,
       handleInputChange,
@@ -44,6 +54,24 @@ export class WorksForm extends Component {
           value={stack}
           onBlur={handleInputBlur}
         />
+        <input
+          name="link"
+          type="text"
+          placeholder="Ссылка на проект"
+          className="input works-form__input"
+          onChange={handleInputChange}
+          value={link}
+          onBlur={handleInputBlur}
+        />
+        <textarea
+          name="description"
+          type="text"
+          placeholder="Описание проекта"
+          className="input textarea works-form__textarea"
+          onChange={handleInputChange}
+          value={description}
+          onBlur={handleInputBlur}
+        />
         <label className="works-form__file">
           <input
             type="file"
@@ -71,13 +99,11 @@ export class WorksForm extends Component {
     let file = e.target.files[0];
     let errorMessage =
       'Разрешена загрузка только файлов в формате .jpg или .png, размером не более 5мб';
-    console.log('+++', file);
 
     if (
       (file.type === 'image/jpeg' || file.type === 'image/png') &&
       file.size <= 5000000
     ) {
-      console.log('----', file);
       const reader = new FileReader();
 
       this.setState({ ...this.state, pictureError: false, file: file });
@@ -109,25 +135,41 @@ export class WorksForm extends Component {
   handleInputBlur = e => {
     const value = e.target.value.trim();
     const name = e.target.name;
+    const expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    const regex = new RegExp(expression);
+
+    if (name === 'link' && !value.match(regex)) {
+      this.setState({ [name]: '' });
+      return;
+    }
 
     this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
-    const { name, stack, pictureError, file } = this.state;
+    const { name, stack, description, link, pictureError, file } = this.state;
     const { addWork } = this.props;
     const errorMessage = 'Все поля обязательны для заполнения';
 
     e.preventDefault();
 
-    if (name === '' || stack === '' || file === null || pictureError) {
+    if (
+      name === '' ||
+      stack === '' ||
+      description === '' ||
+      link === '' ||
+      file === null ||
+      pictureError
+    ) {
       this.setState({ error: errorMessage });
     } else {
-      addWork(name, stack, file);
+      addWork(name, stack, link, description, file);
       this.setState({
         error: false,
         name: '',
-        stack: ''
+        stack: '',
+        link: '',
+        description: ''
       });
     }
   };

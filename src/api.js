@@ -88,15 +88,16 @@ export function fetchArticles() {
 
 //add
 
-export function addArticleToDb(name, content, date) {
-  const data = new FormData();
-  data.append('name', name);
-  data.append('content', content);
-  data.append('date', date);
+export function addArticleToDb(obj) {
+  const JSONData = JSON.stringify(obj);
+  const myHeaders = new Headers();
+
+  myHeaders.set('Content-Type', 'application/json');
 
   const addOption = Object.assign({}, options, {
     method: 'POST',
-    body: data
+    body: JSONData,
+    headers: myHeaders
   });
   return fetch(url + articlesApi, addOption).then(res => {
     if (res.status >= 400) {
@@ -132,10 +133,12 @@ export function fetchWorks() {
 
 //add
 
-export function addWorksToDb(name, stack, picture) {
+export function addWorksToDb(name, stack, link, description, picture) {
   const data = new FormData();
   data.append('name', name);
   data.append('stack', stack);
+  data.append('link', link);
+  data.append('description', description);
   data.append('picture', picture);
 
   const addOption = Object.assign({}, options, {

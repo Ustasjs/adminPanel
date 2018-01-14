@@ -54,7 +54,7 @@ export class ArticleForm extends Component {
         <textarea
           name="content"
           placeholder="Содержание"
-          className="input article-form__textarea"
+          className="input textarea article-form__textarea"
           value={content}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
@@ -131,7 +131,7 @@ export class ArticleForm extends Component {
       this.setState({ error: errorMessage });
     } else {
       // improve when server will be ready
-      addArticle(name, content, date)
+      addArticle({ name, content, date })
         .then(() => {
           this.setState({
             name: '',

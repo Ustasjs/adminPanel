@@ -45,18 +45,7 @@
 }
 
 .article-form__textarea {
-  width: 500px;
-  height: 150px;
-  resize: none;
   margin-bottom: 60px;
-
-  @include smallTablet() {
-    width: 400px;
-  }
-
-  @include smartphone() {
-    width: 100%;
-  }
 }
 
 .article-form__error {

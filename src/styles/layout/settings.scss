@@ -124,6 +124,19 @@ h3 {
   border-radius: 5px;
 }
 
+.textarea {
+  width: 500px;
+  height: 150px;
+  resize: none;
+  @include smallTablet() {
+    width: 400px;
+  }
+
+  @include smartphone() {
+    width: 100%;
+  }
+}
+
 .error {
   position: absolute;
   color: red;
