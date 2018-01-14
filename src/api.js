@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000';
+const url = 'http://92.53.104.80:3000';
 
 const articlesApi = '/api/blog';
 const worksApi = '/api/portfolio';
