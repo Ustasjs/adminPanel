@@ -180,7 +180,9 @@ export class About extends Component {
       return;
     }
 
-    return addSkillToDb(skillName, percents, skillTypeName)
+    const lowerCaseTypeName = skillTypeName.toLowerCase();
+
+    return addSkillToDb(skillName, percents, lowerCaseTypeName)
       .then(() => this.handleUpdateSkills())
       .then(() => this.setState({ skillName: '', percents: '' }))
       .catch(err => {

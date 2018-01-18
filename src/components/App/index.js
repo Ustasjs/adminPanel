@@ -6,7 +6,6 @@ import Main from 'Main';
 import './App.scss';
 
 export class App extends Component {
-
   render() {
     return (
       <div className="container">
@@ -14,9 +13,8 @@ export class App extends Component {
         <Tabs />
         <Main />
       </div>
-    )
+    );
   }
-
 }
 
 export default App;

@@ -1,11 +1,21 @@
-const url = 'http://92.53.104.80:3000';
+let url;
+let options;
+
+if (process.env.NODE_ENV === 'development') {
+  url = 'http://localhost:3000';
+  options = {
+    mode: 'cors'
+  };
+} else {
+  url = 'http://92.53.104.80:3000';
+  options = {
+    mode: 'same-origin'
+  };
+}
 
 const articlesApi = '/api/blog';
 const worksApi = '/api/portfolio';
 const skillsApi = '/api/skills';
-const options = {
-  mode: 'cors'
-};
 
 // skills
 // fetch
@@ -31,6 +41,7 @@ export function addSkillToDb(name, percents, type) {
   const addOption = Object.assign({}, options, {
     method: 'POST',
     body: JSONData,
+    credentials: 'include',
     headers: myHeaders
   });
   return fetch(url + skillsApi, addOption).then(res => {
@@ -52,6 +63,7 @@ export function updateSkillsDB(obj) {
   const addOption = Object.assign({}, options, {
     method: 'PUT',
     body: JSONData,
+    credentials: 'include',
     headers: myHeaders
   });
   return fetch(url + skillsApi, addOption).then(res => {
@@ -65,7 +77,10 @@ export function updateSkillsDB(obj) {
 //delete
 
 export function deleteSkillFromDb(id) {
-  const deleteOption = Object.assign({}, options, { method: 'DELETE' });
+  const deleteOption = Object.assign({}, options, {
+    method: 'DELETE',
+    credentials: 'include'
+  });
   return fetch(url + skillsApi + id, deleteOption).then(res => {
     if (res.status >= 400) {
       throw new Error(`Server side error: ${res.statusText}`);
@@ -97,6 +112,7 @@ export function addArticleToDb(obj) {
   const addOption = Object.assign({}, options, {
     method: 'POST',
     body: JSONData,
+    credentials: 'include',
     headers: myHeaders
   });
   return fetch(url + articlesApi, addOption).then(res => {
@@ -110,7 +126,10 @@ export function addArticleToDb(obj) {
 //delete
 
 export function deleteArticleFromDb(id) {
-  const deleteOption = Object.assign({}, options, { method: 'DELETE' });
+  const deleteOption = Object.assign({}, options, {
+    method: 'DELETE',
+    credentials: 'include'
+  });
   return fetch(url + articlesApi + id, deleteOption).then(res => {
     if (res.status >= 400) {
       throw new Error(`Server side error: ${res.statusText}`);
@@ -143,6 +162,7 @@ export function addWorksToDb(name, stack, link, description, picture) {
 
   const addOption = Object.assign({}, options, {
     method: 'POST',
+    credentials: 'include',
     body: data
   });
   return fetch(url + worksApi, addOption).then(res => {
@@ -156,7 +176,10 @@ export function addWorksToDb(name, stack, link, description, picture) {
 //delete
 
 export function deleteWorkseFromDb(id) {
-  const deleteOption = Object.assign({}, options, { method: 'DELETE' });
+  const deleteOption = Object.assign({}, options, {
+    method: 'DELETE',
+    credentials: 'include'
+  });
   return fetch(url + worksApi + id, deleteOption).then(res => {
     if (res.status >= 400) {
       throw new Error(`Server side error: ${res.statusText}`);
