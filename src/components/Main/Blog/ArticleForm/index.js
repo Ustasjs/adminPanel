@@ -16,15 +16,14 @@ export class ArticleForm extends Component {
   };
 
   render() {
-    const { name, content, error, showModal } = this.state;
+    const { name, content, error } = this.state;
     const {
       handleSubmit,
       handleInputChange,
       handleInputBlur,
       formatDate,
       parseDate,
-      handleDayChange,
-      handleModalClick
+      handleDayChange
     } = this;
     return (
       <form action="POST" className="article-form" onSubmit={handleSubmit}>
@@ -55,7 +54,7 @@ export class ArticleForm extends Component {
         <textarea
           name="content"
           placeholder="Содержание"
-          className="input article-form__textarea"
+          className="input textarea article-form__textarea"
           value={content}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
@@ -64,7 +63,6 @@ export class ArticleForm extends Component {
           <div className="error article-form__error">{error}</div>
         ) : null}
         <button className="button article-form__button">Добавить</button>
-        {showModal ? <ModalIcon onClick={handleModalClick} /> : null}
       </form>
     );
   }
@@ -133,20 +131,18 @@ export class ArticleForm extends Component {
       this.setState({ error: errorMessage });
     } else {
       // improve when server will be ready
-      addArticle(makeId(), name);
-      this.setState({
-        showModal: true,
-        name: '',
-        date: '',
-        content: '',
-        error: false
-      });
+      addArticle({ name, content, date })
+        .then(() => {
+          this.setState({
+            name: '',
+            content: '',
+            error: false
+          });
+        })
+        .catch(e => {
+          console.log(e.message);
+        });
     }
-  };
-
-  handleModalClick = () => {
-    // improve when server will be ready
-    this.setState({ showModal: false });
   };
 }
 

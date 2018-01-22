@@ -23,16 +23,6 @@ export default function CurrentWorks(props) {
             ))
           : 'Работ пока нет'}
       </ul>
-      <button
-        className="button current-works__button"
-        onClick={handleSaveClick}
-      >
-        Сохранить
-      </button>
     </div>
   );
-
-  function handleSaveClick() {
-    // improve when server will be ready
-  }
 }

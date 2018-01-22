@@ -1,34 +1,25 @@
 import React, { Component } from 'react';
 import SkillList from 'Main/About/SkillList';
-import { fetchSkills } from '../../../api';
+import {
+  fetchSkills,
+  addSkillToDb,
+  updateSkillsDB,
+  deleteSkillFromDb
+} from '../../../api';
 import ModalIcon from 'Main/ModalIcon';
 
 import './About.scss';
 
 export class About extends Component {
   state = {
-    skills: [
-      {
-        id: 1,
-        name: 'Html',
-        percents: 10,
-        type: 1
-      },
-      {
-        id: 5,
-        name: 'Gulp',
-        percents: 50,
-        type: 2
-      },
-      {
-        id: 8,
-        name: 'Node.js',
-        percents: 80,
-        type: 3
-      }
-    ],
-    skillsTypes: ['frontend', 'workflow', 'backend'],
-    showModal: false
+    skills: [],
+    skillsTypes: [],
+    showModal: false,
+    skillName: '',
+    skillTypeName: '',
+    percents: '',
+    inputError: false,
+    connectionError: false
   };
 
   componentDidMount() {
@@ -36,56 +27,122 @@ export class About extends Component {
   }
 
   render() {
-    const { skillsTypes, showModal } = this.state;
+    const {
+      skillsTypes,
+      showModal,
+      skillName,
+      skillTypeName,
+      percents,
+      inputError,
+      connectionError
+    } = this.state;
+
+    const {
+      handleDeleteSkill,
+      handleAddSkill,
+      handlePercentsChange,
+      filterSkills,
+      handleChange,
+      handlePersentInputChange,
+      handleSave,
+      handleModalClick
+    } = this;
 
     return (
       <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Обо мне"</h2>
+        {connectionError ? (
+          <div className="error about__error">
+            Произошла ошибка соединения: {connectionError}
+          </div>
+        ) : null}
         <ul className="about__list">
           {skillsTypes.map((elem, index) => (
             <SkillList
-              deleteHandler={this.handleDeleteSkill}
-              addHandler={this.handleAddSkill}
-              changePersentsHandler={this.handlePercentsChange}
+              deleteHandler={handleDeleteSkill}
+              addHandler={handleAddSkill}
+              changePersentsHandler={handlePercentsChange}
               title={elem}
               key={elem}
-              type={index + 1}
-              skills={this.filterSkills(index)}
+              type={elem}
+              skills={filterSkills(elem)}
             />
           ))}
         </ul>
-        <button onClick={this.handleSave} className="button about__button">
+        <div className="add-skill">
+          {inputError ? (
+            <div className="error add-skill__error">{inputError}</div>
+          ) : null}
+          <h3 className="heading heading_small add-skill__title">
+            Добавить навык
+          </h3>
+          <div className="add-skill__wrap">
+            <input
+              type="text"
+              name="skillName"
+              placeholder="Название"
+              className="input add-skill__input"
+              value={skillName}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="skillTypeName"
+              placeholder="Тип"
+              className="input add-skill__input"
+              value={skillTypeName}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="percents"
+              placeholder="%"
+              className="input add-skill__input add-skill__input_percents"
+              value={percents}
+              onChange={handlePersentInputChange}
+            />
+            <button
+              onClick={handleAddSkill}
+              className="button skill-list__button"
+            >
+              Добавить
+            </button>
+          </div>
+        </div>
+        <button onClick={handleSave} className="button about__button">
           Сохранить
         </button>
-        {showModal ? <ModalIcon onClick={this.handleModalClick} /> : null}
+        {showModal ? <ModalIcon onClick={handleModalClick} /> : null}
       </div>
     );
   }
 
-  filterSkills = index => {
+  filterSkills = type => {
     const { skills } = this.state;
-    return skills.filter(elem => elem.type === index + 1);
+    return skills.filter(elem => elem.type === type);
   };
 
-  handleDeleteSkill = (skillId, skillTypeId) => {
-    const { state } = this;
-    this.setState({
-      skills: state.skills.filter(
-        elem => elem.id !== skillId || elem.type !== skillTypeId
-      )
-    });
+  handleUpdateSkills = () => {
+    fetchSkills()
+      .then(res => {
+        const skills = res.skills;
+        const skillsTypes = res.skills.reduce((prevValue, currentValue) => {
+          if (prevValue.indexOf(currentValue.type) === -1) {
+            prevValue.push(currentValue.type);
+          }
+          return prevValue;
+        }, []);
+        this.setState({ skills: skills, skillsTypes });
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
+      });
   };
 
-  handleAddSkill = (id, name, type) => {
-    const skill = {
-      id,
-      name,
-      percents: 0,
-      type
-    };
-    const { skills } = this.state;
-
-    this.setState({ skills: [...skills, skill] });
+  handleChange = e => {
+    const name = e.target.name;
+    this.setState({ [name]: e.target.value.trim() });
   };
 
   handlePercentsChange = (id, type, percents) => {
@@ -101,23 +158,60 @@ export class About extends Component {
     });
   };
 
-  handleUpdateSkills = () => {
-    fetchSkills()
-      .then(res => {
-        this.setState({ skills: res });
-      })
+  handlePersentInputChange = e => {
+    const name = e.target.name;
+    let value = e.target.value.trim();
+
+    if (value[0] === '0') {
+      value = value.slice(1);
+    }
+
+    if (value >= 0 && value <= 100) {
+      this.setState({ [name]: value });
+    }
+  };
+
+  handleAddSkill = () => {
+    const { skillName, skillTypeName, percents } = this.state;
+    const error = 'Все поля обязательны для заполнения';
+
+    if (skillName === '' || skillTypeName === '' || percents === '') {
+      this.setState({ inputError: error });
+      return;
+    }
+
+    const lowerCaseTypeName = skillTypeName.toLowerCase();
+
+    return addSkillToDb(skillName, percents, lowerCaseTypeName)
+      .then(() => this.handleUpdateSkills())
+      .then(() => this.setState({ skillName: '', percents: '' }))
       .catch(err => {
         console.error(err);
+        this.setState({ connectionError: err.message });
+      });
+  };
+
+  handleDeleteSkill = id => {
+    deleteSkillFromDb(id)
+      .then(() => this.handleUpdateSkills())
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
       });
   };
 
   handleSave = () => {
-    // improve when server will be ready
-    this.setState({ showModal: true });
+    const { skills } = this.state;
+    updateSkillsDB(skills)
+      .then(() => this.setState({ showModal: true }))
+      .then(() => this.handleUpdateSkills())
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
+      });
   };
 
   handleModalClick = () => {
-    // improve when server will be ready
     this.setState({ showModal: false });
   };
 }

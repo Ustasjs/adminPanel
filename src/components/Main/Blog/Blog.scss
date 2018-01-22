@@ -1,0 +1,8 @@
+.blog__error {
+  position: absolute;
+  top: 50px;
+
+  @include smartphone() {
+    top: 40px;
+  }
+}

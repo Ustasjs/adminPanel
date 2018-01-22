@@ -6,11 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import './styles/fonts/fonts.scss';
 import './styles/layout/settings.scss';
 
-import App from "App";
+import App from 'App';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/adminpanel">
     <App />
   </BrowserRouter>,
   document.getElementById('root')
-)
+);

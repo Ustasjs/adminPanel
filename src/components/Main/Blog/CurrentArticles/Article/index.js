@@ -2,8 +2,8 @@ import React from 'react';
 
 import './Article.scss';
 
-export default function Work(props) {
-  const { name, deleteArticle } = props;
+export default function Article(props) {
+  const { name } = props;
 
   return (
     <li className="article">

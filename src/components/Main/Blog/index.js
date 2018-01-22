@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import ArticleForm from './ArticleForm';
 import CurrentArticles from './CurrentArticles';
-import { fetchArticles } from '../../../api';
+import {
+  fetchArticles,
+  deleteArticleFromDb,
+  addArticleToDb
+} from '../../../api';
+import './Blog.scss';
 
 export class Blog extends Component {
   state = {
-    articles: []
+    articles: [],
+    connectionError: false
   };
 
   componentDidMount() {
@@ -13,11 +19,16 @@ export class Blog extends Component {
   }
 
   render() {
-    const { articles } = this.state;
+    const { articles, connectionError } = this.state;
 
     return (
       <div className="inner-container">
         <h2 className="heading heading_medium">Страница "Блог"</h2>
+        {connectionError ? (
+          <div className="error blog__error">
+            Произошла ошибка соединения: {connectionError}
+          </div>
+        ) : null}
         <div className="inner-wrapper">
           <ArticleForm addArticle={this.addArticle} />
           <CurrentArticles
@@ -30,27 +41,32 @@ export class Blog extends Component {
   }
 
   handleUpdateArticles = () => {
-    fetchArticles()
+    return fetchArticles()
       .then(res => {
-        this.setState({ articles: res });
+        this.setState({ articles: res.articles, connectionError: false });
       })
       .catch(err => {
         console.error(err);
+        this.setState({ connectionError: err.message });
       });
   };
 
-  addArticle = (id, name) => {
-    const article = { id, name };
-    const articles = this.state.articles;
-
-    this.setState({ articles: [...articles, article] });
+  addArticle = (name, content, date) => {
+    return addArticleToDb(name, content, date)
+      .then(() => this.handleUpdateArticles())
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
+      });
   };
 
   handleDeleteArticle = id => {
-    const articles = this.state.articles;
-    this.setState({
-      articles: articles.filter(elem => elem.id !== id)
-    });
+    deleteArticleFromDb(id)
+      .then(() => this.handleUpdateArticles())
+      .catch(err => {
+        console.error(err);
+        this.setState({ connectionError: err.message });
+      });
   };
 }
 

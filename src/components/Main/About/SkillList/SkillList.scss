@@ -1,7 +1,7 @@
 .skill-list {
   min-width: 250px;
   width: 20%;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   margin-right: 45px;
 }
 
@@ -14,17 +14,6 @@
   padding-left: 15px;
 }
 
-.skill-list__inner{
+.skill-list__inner {
   margin-bottom: 25px;
-}
-
-.add-skill {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.add-skill__input {
-  width: 120px;
 }

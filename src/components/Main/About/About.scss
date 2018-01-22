@@ -4,3 +4,45 @@
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
+
+.about__error {
+  position: absolute;
+  top: 50px;
+  padding-right: 10px;
+
+  @include smartphone() {
+    top: 40px;
+  }
+}
+
+.add-skill {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.add-skill__wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.add-skill__input {
+  margin-top: 10px;
+  width: 110px;
+  margin-right: 10px;
+}
+
+.add-skill__input_percents {
+  width: 45px;
+}
+
+.skill-list__button {
+  margin-top: 10px;
+}
+
+.add-skill__error {
+  top: -30px;
+}

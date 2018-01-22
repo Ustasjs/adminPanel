@@ -2,27 +2,8 @@ import React, { Component } from 'react';
 import './Skill.scss';
 
 export class Skill extends Component {
-  // state = {
-  //   percents: ''
-  // };
-
-  // componentWillMount() {
-  //   const { skill } = this.props;
-
-  //   this.setState({ percents: skill.percents });
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { skill } = this.props;
-
-  //   if (skill.percents !== nextProps.skill.percents) {
-  //     this.setState({ percents: nextProps.skill.percents });
-  //   }
-  // }
-
   render() {
     const { skill } = this.props;
-    //const { percents } = this.state;
 
     return (
       <li className="skill">

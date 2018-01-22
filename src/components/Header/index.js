@@ -8,7 +8,7 @@ export class Header extends Component {
         <h1 className="heading heading_big header__title">
           Панель администрирования
         </h1>
-        <a href="#" className="header__logout">
+        <a href="/" className="header__logout">
           Вернуться на сайт
         </a>
       </header>

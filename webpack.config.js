@@ -46,16 +46,6 @@ const commonConfig = {
           presets: ['env', 'react', 'stage-0']
         }
       },
-      /// только пока не будет готов бек
-      {
-        test: /\.json$/,
-        include: path.resolve(__dirname, 'src/data'),
-        loader: 'file-loader',
-        options: {
-          name: 'src/data/[name].[ext]'
-        }
-      },
-      /// только пока не будет готов бек
       {
         test: /\.(jpe?g|png|gif|svg|)$/i,
         loader: 'file-loader',
@@ -126,10 +116,18 @@ const developmentConfig = {
     ]
   },
 
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
+  ],
+
   devServer: {
     open: true,
     port: 8000,
-    historyApiFallback: true
+    historyApiFallback: true,
+    publicPath: 'http://localhost:8000/adminpanel/',
+    openPage: 'adminpanel/'
   }
 };
 
@@ -173,9 +171,28 @@ const productionConfig = {
   ]
 };
 
-module.exports = function(env) {
+const productionEnv = {
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    })
+  ]
+}
+
+const demonstrationEnv = {
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('demonstration'),
+    })
+  ]
+}
+
+module.exports = function (env) {
   if (env === 'production') {
-    return merge(commonConfig, productionConfig);
+    return merge(commonConfig, productionConfig, productionEnv);
+  }
+  if (env === 'demonstration') {
+    return merge(commonConfig, productionConfig, demonstrationEnv);
   }
   if (env === 'development') {
     return merge(commonConfig, developmentConfig);

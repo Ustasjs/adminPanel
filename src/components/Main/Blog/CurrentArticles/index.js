@@ -23,16 +23,6 @@ export default function CurrentArticles(props) {
             ))
           : 'Записей пока нет'}
       </ul>
-      <button
-        onClick={handleSaveClick}
-        className="button current-articles__button"
-      >
-        Сохранить
-      </button>
     </div>
   );
-
-  function handleSaveClick() {
-    // improve when server will be ready
-  }
 }

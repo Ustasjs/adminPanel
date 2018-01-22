@@ -1,29 +1,35 @@
 import React, { Component } from 'react';
-import ModalIcon from 'Main/ModalIcon';
 
-import { makeId } from '../../../../utils';
 import './WorksForm.scss';
-import Logo from 'img/picture.png';
+import Logo from '../../../../assets/img/picture.png';
 
 export class WorksForm extends Component {
   state = {
     pictureError: false,
     error: false,
     dataUrl: null,
-    formData: null,
+    file: null,
     name: '',
     stack: '',
-    showModal: false
+    description: '',
+    link: ''
   };
 
   render() {
-    const { pictureError, error, dataUrl, name, stack, showModal } = this.state;
+    const {
+      pictureError,
+      error,
+      dataUrl,
+      name,
+      stack,
+      link,
+      description
+    } = this.state;
     const {
       handleSubmit,
       handleInputChange,
       handleInputBlur,
-      handleChange,
-      handleModalClick
+      handleChange
     } = this;
     return (
       <form action="POST" className="works-form" onSubmit={handleSubmit}>
@@ -48,6 +54,24 @@ export class WorksForm extends Component {
           value={stack}
           onBlur={handleInputBlur}
         />
+        <input
+          name="link"
+          type="text"
+          placeholder="Ссылка на проект"
+          className="input works-form__input"
+          onChange={handleInputChange}
+          value={link}
+          onBlur={handleInputBlur}
+        />
+        <textarea
+          name="description"
+          type="text"
+          placeholder="Описание проекта"
+          className="input textarea works-form__textarea"
+          onChange={handleInputChange}
+          value={description}
+          onBlur={handleInputBlur}
+        />
         <label className="works-form__file">
           <input
             type="file"
@@ -67,7 +91,6 @@ export class WorksForm extends Component {
           <img src={dataUrl} className="works-form__preview" alt="preview" />
         ) : null}
         <button className="button works-form__button">Добавить</button>
-        {showModal ? <ModalIcon onClick={handleModalClick} /> : null}
       </form>
     );
   }
@@ -82,10 +105,8 @@ export class WorksForm extends Component {
       file.size <= 5000000
     ) {
       const reader = new FileReader();
-      const formData = new FormData();
 
-      formData.append('image', file);
-      this.setState({ ...this.state, pictureError: false, formData: formData });
+      this.setState({ ...this.state, pictureError: false, file: file });
 
       reader.readAsDataURL(file);
       reader.addEventListener('loadend', e => {
@@ -99,7 +120,7 @@ export class WorksForm extends Component {
       this.setState({
         pictureError: errorMessage,
         dataUrl: null,
-        formData: null
+        file: null
       });
     }
   };
@@ -114,36 +135,43 @@ export class WorksForm extends Component {
   handleInputBlur = e => {
     const value = e.target.value.trim();
     const name = e.target.name;
+    const expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+    const regex = new RegExp(expression);
+
+    if (name === 'link' && !value.match(regex)) {
+      this.setState({ [name]: '' });
+      return;
+    }
 
     this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
-    const { name, stack, pictureError, formData } = this.state;
+    const { name, stack, description, link, pictureError, file } = this.state;
     const { addWork } = this.props;
     const errorMessage = 'Все поля обязательны для заполнения';
 
     e.preventDefault();
 
-    if (name === '' || stack === '' || formData === null || pictureError) {
+    if (
+      name === '' ||
+      stack === '' ||
+      description === '' ||
+      link === '' ||
+      file === null ||
+      pictureError
+    ) {
       this.setState({ error: errorMessage });
     } else {
-      // improve when server will be ready
-      addWork(name, stack, makeId());
+      addWork(name, stack, link, description, file);
       this.setState({
-        showModal: true,
         error: false,
         name: '',
         stack: '',
-        dataUrl: null,
-        formData: null
+        link: '',
+        description: ''
       });
     }
-  };
-
-  handleModalClick = () => {
-    // improve when server will be ready
-    this.setState({ showModal: false });
   };
 }
 
