@@ -1,16 +1,21 @@
 let url;
 let options;
 
-if (process.env.NODE_ENV === 'development') {
-  url = 'http://localhost:3000';
-  options = {
-    mode: 'cors'
-  };
-} else {
-  url = 'http://92.53.104.80:3000';
-  options = {
-    mode: 'same-origin'
-  };
+switch (process.env.NODE_ENV) {
+  case 'development': url = 'http://localhost:3000';
+    options = {
+      mode: 'cors'
+    };
+    break;
+  case 'demonstration': url = 'http://localhost:3000';
+    options = {
+      mode: 'same-origin'
+    };
+    break;
+  default: url = 'http://92.53.104.80:3000';
+    options = {
+      mode: 'same-origin'
+    };
 }
 
 const articlesApi = '/api/blog';

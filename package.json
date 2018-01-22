@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --inline --env development",
-    "build": "webpack --env production"
+    "build": "webpack --env production",
+    "dem": "webpack --env demonstration"
   },
   "author": "Ustiuzhanin Stanislav <ov.s.ust@gmail.com>",
   "license": "MIT",
