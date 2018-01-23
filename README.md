@@ -11,7 +11,7 @@
 ##### Склонируйте репозиторий и перейдите в папку проекта
 
 ```
-git clone github.com/Ustasjs/adminPanel.git
+git clone https://github.com/Ustasjs/adminPanel
 ```
 
 ##### Установите модули локально
