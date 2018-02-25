@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import SkillList from 'Main/About/SkillList';
 import {
   fetchSkills,
@@ -7,6 +8,7 @@ import {
   deleteSkillFromDb
 } from '../../../api';
 import ModalIcon from 'Main/ModalIcon';
+import { fetchSkillsAC } from '../../../actions/skills';
 
 import './About.scss';
 
@@ -202,6 +204,8 @@ export class About extends Component {
 
   handleSave = () => {
     const { skills } = this.state;
+    const { fetchSkillsAC } = this.props;
+    fetchSkillsAC();
     updateSkillsDB(skills)
       .then(() => this.setState({ showModal: true }))
       .then(() => this.handleUpdateSkills())
@@ -216,4 +220,9 @@ export class About extends Component {
   };
 }
 
-export default About;
+const mapDispatchToProps = { fetchSkillsAC };
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(About);
